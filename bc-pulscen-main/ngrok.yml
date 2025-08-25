@@ -1,0 +1,16 @@
+version: "2"
+authtoken: 2xVnaZoFPOUQIYv7Mv26owDe4PF_7vaWGYhVxQP4ckj3hVXcP
+
+tunnels:
+  pulscen-api:
+    proto: http
+    addr: 8000
+    schemes: [https, http]
+    # Дополнительные заголовки для keep-alive
+    request_header:
+      add:
+        - "Connection: keep-alive"
+        - "Keep-Alive: timeout=600, max=1000"
+
+# Веб-интерфейс ngrok
+web_addr: localhost:4040

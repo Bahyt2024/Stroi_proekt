@@ -1,0 +1,177 @@
+2025-08-03 22:54:04,974 - __main__ - INFO - COLLECT_OFFERS FUNCTION STARTED
+2025-08-03 22:54:04,975 - __main__ - INFO - Starting collect_offers with query: name='Test' code='1111' weight='A3' number='2' city='Moscow' monitor='Test'
+2025-08-03 22:54:04,975 - __main__ - INFO - Extracted variables: name=Test, code=1111, weight=A3, number=2, city=Moscow, monitor=Test
+2025-08-03 22:54:04,975 - __main__ - INFO - Created output directory: output/1111_Test
+2025-08-03 22:54:04,975 - __main__ - INFO - Starting Playwright...
+2025-08-03 22:54:05,184 - __main__ - ERROR - Error in collect_offers: Connection closed while reading from the driver
+2025-08-03 22:54:05,185 - __main__ - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aza4o\OneDrive\Desktop\bc-pulscen-main\p1.py", line 874, in collect_offers
+    async with async_playwright() as p:
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\async_api\_context_manager.py", line 47, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: Connection closed while reading from the driver
+
+2025-08-03 22:55:50,989 - __main__ - INFO - COLLECT_OFFERS FUNCTION STARTED
+2025-08-03 22:55:50,989 - __main__ - INFO - Starting collect_offers with query: name='Test' code='1111' weight='A3' number='2' city='Moscow' monitor='Test'
+2025-08-03 22:55:50,989 - __main__ - INFO - Extracted variables: name=Test, code=1111, weight=A3, number=2, city=Moscow, monitor=Test
+2025-08-03 22:55:50,989 - __main__ - INFO - Created output directory: output/1111_Test
+2025-08-03 22:55:50,989 - __main__ - INFO - Starting Playwright...
+2025-08-03 22:55:51,152 - __main__ - ERROR - Error in collect_offers: Connection closed while reading from the driver
+2025-08-03 22:55:51,152 - __main__ - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aza4o\OneDrive\Desktop\bc-pulscen-main\p1.py", line 874, in collect_offers
+    async with async_playwright() as p:
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\async_api\_context_manager.py", line 47, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: Connection closed while reading from the driver
+
+2025-08-03 22:58:17,547 - __main__ - INFO - COLLECT_OFFERS FUNCTION STARTED
+2025-08-03 22:58:17,547 - __main__ - INFO - Starting collect_offers with query: name='Test' code='1111' weight='A3' number='2' city='Moscow' monitor='Test'
+2025-08-03 22:58:17,547 - __main__ - INFO - Extracted variables: name=Test, code=1111, weight=A3, number=2, city=Moscow, monitor=Test
+2025-08-03 22:58:17,547 - __main__ - INFO - Created output directory: output/1111_Test
+2025-08-03 22:58:17,547 - __main__ - INFO - Starting Playwright...
+2025-08-03 22:58:17,547 - __main__ - INFO - Playwright imported successfully
+2025-08-03 22:58:17,729 - __main__ - ERROR - Error in collect_offers: Connection closed while reading from the driver
+2025-08-03 22:58:17,730 - __main__ - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aza4o\OneDrive\Desktop\bc-pulscen-main\p1.py", line 883, in collect_offers
+    async with async_playwright() as p:
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\async_api\_context_manager.py", line 47, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: Connection closed while reading from the driver
+
+2025-08-03 22:58:38,178 - __main__ - INFO - COLLECT_OFFERS FUNCTION STARTED
+2025-08-03 22:58:38,178 - __main__ - INFO - Starting collect_offers with query: name='Test' code='1111' weight='A3' number='2' city='Moscow' monitor='Test'
+2025-08-03 22:58:38,178 - __main__ - INFO - Extracted variables: name=Test, code=1111, weight=A3, number=2, city=Moscow, monitor=Test
+2025-08-03 22:58:38,179 - __main__ - INFO - Created output directory: output/1111_Test
+2025-08-03 22:58:38,179 - __main__ - INFO - Starting Playwright...
+2025-08-03 22:58:38,179 - __main__ - INFO - Playwright imported successfully
+2025-08-03 22:58:38,179 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-9' coro=<Connection.run.<locals>.init() done, defined at C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:269> exception=Exception('Connection closed while reading from the driver')>
+Traceback (most recent call last):
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 270, in init
+    self.playwright_future.set_result(await self._root_object.initialize())
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 212, in initialize
+    await self._channel.send(
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 509, in wrap_api_call
+    return await cb()
+           ^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 97, in inner_send
+    result = next(iter(done)).result()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: Connection closed while reading from the driver
+2025-08-03 22:58:38,217 - __main__ - ERROR - Error in collect_offers: Connection closed while reading from the driver
+2025-08-03 22:58:38,217 - __main__ - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aza4o\OneDrive\Desktop\bc-pulscen-main\p1.py", line 883, in collect_offers
+    # Пробуем запустить Playwright с детальным логированием
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\async_api\_context_manager.py", line 47, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: Connection closed while reading from the driver
+
+2025-08-03 23:03:58,833 - p1 - INFO - COLLECT_OFFERS FUNCTION STARTED
+2025-08-03 23:03:58,833 - p1 - INFO - Starting collect_offers with query: name='Test' code='1111' weight='A3' number='2' city='Moscow' monitor='Test'
+2025-08-03 23:03:58,833 - p1 - INFO - Extracted variables: name=Test, code=1111, weight=A3, number=2, city=Moscow, monitor=Test
+2025-08-03 23:03:58,834 - p1 - INFO - Created output directory: output/1111_Test
+2025-08-03 23:03:58,834 - p1 - INFO - Starting Playwright...
+2025-08-03 23:03:58,834 - p1 - INFO - Playwright imported successfully
+2025-08-03 23:03:58,834 - p1 - INFO - Attempting to start Playwright context manager...
+2025-08-03 23:03:58,834 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-5' coro=<Connection.run() done, defined at C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:303> exception=NotImplementedError()>
+Traceback (most recent call last):
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 310, in run
+    await self._transport.connect()
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_transport.py", line 133, in connect
+    raise exc
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\subprocess.py", line 221, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1694, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 502, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+2025-08-03 23:03:58,837 - p1 - ERROR - Failed to start Playwright context: 
+2025-08-03 23:03:58,837 - p1 - ERROR - Exception type: <class 'NotImplementedError'>
+2025-08-03 23:04:41,195 - p1 - INFO - COLLECT_OFFERS FUNCTION STARTED
+2025-08-03 23:04:41,195 - p1 - INFO - Starting collect_offers with query: name='Цемент' code='1111' weight='м3' number='2' city='Республика Ингушетия' monitor='Азамат'
+2025-08-03 23:04:41,196 - p1 - INFO - Extracted variables: name=Цемент, code=1111, weight=м3, number=2, city=Республика Ингушетия, monitor=Азамат
+2025-08-03 23:04:41,196 - p1 - INFO - Created output directory: output/1111_Цемент
+2025-08-03 23:04:41,196 - p1 - INFO - Starting Playwright...
+2025-08-03 23:04:41,196 - p1 - INFO - Playwright imported successfully
+2025-08-03 23:04:41,196 - p1 - INFO - Attempting to start Playwright context manager...
+2025-08-03 23:04:41,196 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-12' coro=<Connection.run() done, defined at C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:303> exception=NotImplementedError()>
+Traceback (most recent call last):
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 310, in run
+    await self._transport.connect()
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_transport.py", line 133, in connect
+    raise exc
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\subprocess.py", line 221, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1694, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 502, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+2025-08-03 23:04:41,197 - p1 - ERROR - Failed to start Playwright context: 
+2025-08-03 23:04:41,197 - p1 - ERROR - Exception type: <class 'NotImplementedError'>
+2025-08-04 02:15:15,499 - p1 - INFO - COLLECT_OFFERS FUNCTION STARTED
+2025-08-04 02:15:15,500 - p1 - INFO - Starting collect_offers with query: name='Цемент' code='1111' weight='м3' number='3' city='Республика Ингушетия' monitor='Азамат'
+2025-08-04 02:15:15,500 - p1 - INFO - Extracted variables: name=Цемент, code=1111, weight=м3, number=3, city=Республика Ингушетия, monitor=Азамат
+2025-08-04 02:15:15,502 - p1 - INFO - Created output directory: output/1111_Цемент
+2025-08-04 02:15:15,502 - p1 - INFO - Starting Playwright...
+2025-08-04 02:15:15,502 - p1 - INFO - Playwright imported successfully
+2025-08-04 02:15:15,503 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-5' coro=<Connection.run() done, defined at C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:303> exception=NotImplementedError()>
+Traceback (most recent call last):
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py", line 310, in run
+    await self._transport.connect()
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_transport.py", line 133, in connect
+    raise exc
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\subprocess.py", line 221, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1694, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 502, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+2025-08-04 02:15:15,506 - p1 - ERROR - Error in collect_offers: 
+2025-08-04 02:15:15,508 - p1 - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aza4o\OneDrive\Desktop\bc-pulscen-main\p1.py", line 907, in collect_offers
+    async with async_playwright() as p:
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\async_api\_context_manager.py", line 46, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\subprocess.py", line 221, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1694, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aza4o\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 502, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+

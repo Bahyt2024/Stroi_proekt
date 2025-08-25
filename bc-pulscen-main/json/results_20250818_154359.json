@@ -1,0 +1,28 @@
+[
+  {
+    "Электронная почта поставщика/производителя": "...",
+    "ИНН поставщика/ производителя": "7733373849",
+    "КПП": "772701001",
+    "Формула": "ƒ = 1 т в т = ( 36300 руб./т * 1 ) = 36300 руб.",
+    "url": "https://samarabitum.ru/shop/vyazhuschee-polimerno-bitumnoe-pbv-60-1-tonna.html",
+    "Наименование поставщика/ производителя": "ООО \"БГ \"ОРИОН\"",
+    "Наименование ресурса по прейскуранту": "Вяжущее ПБВ 60 (полимерно-битумное вяжущее)",
+    "Ценовое предложение, с НДС, руб.": "36300 руб./т ",
+    "Телефон поставщика/производителя": "+73345407307",
+    "delivery_method": "Самовызов",
+    "Адрес поставщика/производителя/склада (место отгрузки)": "117041, Г.МОСКВА, ВН.ТЕР.Г. МУНИЦИПАЛЬНЫЙ ОКРУГ ЮЖНОЕ БУТОВО, УЛ АДМИРАЛА РУДНЕВА, Д. 4, ПОМЕЩ. 30Н/6, ОФИС 6",
+    "Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя": "https://samarabitum.ru/shop/vyazhuschee-polimerno-bitumnoe-pbv-60-1-tonna.html",
+    "Цена зафиксирована на дату": "2025-08-18 18:43:27",
+    "Прейскурант": "01.2.03.01-0011_1_2025_3.pdf",
+    "Индекс": "1",
+    "note": "OK"
+  },
+  {
+    "url": "https://impuls-stroy.ru/vyazhuschee-polimerno-bitumnoe-pbv-60-gost-52056-2003-1-tonna.html",
+    "error": "Page.goto: net::ERR_SSL_PROTOCOL_ERROR at https://impuls-stroy.ru/vyazhuschee-polimerno-bitumnoe-pbv-60-gost-52056-2003-1-tonna.html\nCall log:\n  - navigating to \"https://impuls-stroy.ru/vyazhuschee-polimerno-bitumnoe-pbv-60-gost-52056-2003-1-tonna.html\", waiting until \"domcontentloaded\"\n"
+  },
+  {
+    "url": "https://regiontranssnab.ru/catalog/pbv-60-polimerno-bitumnoe-vyazhuschee-30-kg.html",
+    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://regiontranssnab.ru/catalog/pbv-60-polimerno-bitumnoe-vyazhuschee-30-kg.html\nCall log:\n  - navigating to \"https://regiontranssnab.ru/catalog/pbv-60-polimerno-bitumnoe-vyazhuschee-30-kg.html\", waiting until \"domcontentloaded\"\n"
+  }
+]

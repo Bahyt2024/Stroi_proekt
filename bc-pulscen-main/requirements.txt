@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+httpx
+aiohttp
+pydantic
+playwright
+openai
+python-dotenv
+pyautogui
+Pillow
+fpdf
+pdfkit
+serpapi
+pytesseract
