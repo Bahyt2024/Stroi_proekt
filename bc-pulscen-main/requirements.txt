@@ -12,3 +12,4 @@ fpdf
 pdfkit
 serpapi
 pytesseract
+requests

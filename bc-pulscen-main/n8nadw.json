@@ -1,0 +1,1266 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        260
+      ],
+      "id": "796dc469-2129-49ed-9e09-5d293920dae3",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://a918aea25204.ngrok-free.app/collect_offers",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $json.originalRows[0][\"Наименование строительного ресурса\"] }}\",\n  \"code\": \"{{ $json.originalRows[0][\"Код строительного ресурса\"] }}\",\n  \"weight\": \"{{ $json.originalRows[0][\"Единица измерения\"] }}\",\n  \"number\": \"{{ $json.originalRows[0].uniqueIndex }}\",\n  \"city\": \"{{ $json.originalRows[0][\"Ценовая зона\"] }}\",\n  \"monitor\": \"{{ $json.originalRows[0][\"Мониторинг проводил\"] }}\"\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        600
+      ],
+      "id": "07e01856-d68e-4acc-913e-cf421d988935",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE",
+          "mode": "list",
+          "cachedResultName": "1111",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1987507367,
+          "mode": "list",
+          "cachedResultName": "Материалы, изделия, конструкции",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE/edit#gid=1987507367"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -220,
+        260
+      ],
+      "id": "dec19568-e2fc-4529-a403-67bc540f7639",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Z8jrSzmQIVZNypMy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "20f49b71-d222-4f5e-92bc-0edaf23ea9aa",
+              "leftValue": "={{ $json[\"Код строительного ресурса\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "af83ecfd-7bf7-43e0-94d8-948a47f5ee3d",
+              "leftValue": "={{ $json[\"Наименование строительного ресурса\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "9ca759cb-be4f-4485-a4ac-23fd99171518",
+              "leftValue": "={{ $json['ИНН поставщика/ производителя'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -40,
+        580
+      ],
+      "id": "ad23e167-97d8-4646-9ecf-f89e25d7984b",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        460,
+        580
+      ],
+      "id": "1de4d5fc-3118-4c24-920b-893dddb23c49",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        600
+      ],
+      "id": "b895bdc4-2ddd-46cc-bff2-232d5a548d09",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE",
+          "mode": "list",
+          "cachedResultName": "1111",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1987507367,
+          "mode": "list",
+          "cachedResultName": "Материалы, изделия, конструкции",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE/edit#gid=1987507367"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Наименование ресурса по прейскуранту": "={{ $json[\"Наименование ресурса по прейскуранту\"] }}",
+            "Ценовое предложение, с НДС, руб.": "={{ $json[\"Ценовое предложение, с НДС, руб.\"] }}",
+            "ИНН поставщика/ производителя": "={{ $json[\"ИНН поставщика/ производителя\"] }}",
+            "Наименование поставщика/ производителя": "={{ $json[\"Наименование поставщика/ производителя\"] }}",
+            "Адрес поставщика/производителя/склада (место отгрузки)": "={{ $json[\"Адрес поставщика/производителя/склада (место отгрузки)\"] }}",
+            "Электронная почта поставщика/производителя": "={{ $json[\"Электронная почта поставщика/производителя\"] }}",
+            "Телефон поставщика/производителя": "={{ $json[\"Телефон поставщика/производителя\"] }}",
+            "Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя": "={{ $json[\"Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя\"] }}",
+            "Прейскурант": "={{ $json[\"Прейскурант\"] }}",
+            "№ п/п": "={{ $json[\"Индекс\"] }}",
+            "Примечание": "={{ $json[\"Формула\"] }}"
+          },
+          "matchingColumns": [
+            "№ п/п"
+          ],
+          "schema": [
+            {
+              "id": "№ п/п",
+              "displayName": "№ п/п",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "№ карточки",
+              "displayName": "№ карточки",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ценовая зона",
+              "displayName": "Ценовая зона",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Код строительного ресурса",
+              "displayName": "Код строительного ресурса",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Наименование строительного ресурса",
+              "displayName": "Наименование строительного ресурса",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Единица измерения",
+              "displayName": "Единица измерения",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ресурс не представлен на территории субъекта РФ",
+              "displayName": "Ресурс не представлен на территории субъекта РФ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Наименование ресурса по прейскуранту",
+              "displayName": "Наименование ресурса по прейскуранту",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ценовое предложение, с НДС, руб.",
+              "displayName": "Ценовое предложение, с НДС, руб.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ставка НДС",
+              "displayName": "Ставка НДС",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ценовое предложение, без НДС, руб.",
+              "displayName": "Ценовое предложение, без НДС, руб.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ИНН поставщика/ производителя",
+              "displayName": "ИНН поставщика/ производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Наименование поставщика/ производителя",
+              "displayName": "Наименование поставщика/ производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Транспортные расходы учтены в ценовом предложении",
+              "displayName": "Транспортные расходы учтены в ценовом предложении",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Фактический адрес поставщика/производителя/склада (место отгрузки)",
+              "displayName": "Фактический адрес поставщика/производителя/склада (место отгрузки)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Адрес поставщика/производителя/склада (место отгрузки)",
+              "displayName": "Адрес поставщика/производителя/склада (место отгрузки)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Электронная почта поставщика/производителя",
+              "displayName": "Электронная почта поставщика/производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Телефон поставщика/производителя",
+              "displayName": "Телефон поставщика/производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя",
+              "displayName": "Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Единица измерения по прейскуранту",
+              "displayName": "Единица измерения по прейскуранту",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Текущая отпускная цена за ед. изм. по прейскуранту с НДС, руб.",
+              "displayName": "Текущая отпускная цена за ед. изм. по прейскуранту с НДС, руб.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Масса брутто за единицу измерения по прейскуранту, кг ",
+              "displayName": "Масса брутто за единицу измерения по прейскуранту, кг ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Цена зафиксирована на дату\n  ",
+              "displayName": "Цена зафиксирована на дату\n  ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Дата окончания действия коммерческого предложения",
+              "displayName": "Дата окончания действия коммерческого предложения",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Примечание",
+              "displayName": "Примечание",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Транспортные расходы, руб./ед. изм.",
+              "displayName": "Транспортные расходы, руб./ед. изм.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доставка внутри субъекта Российской Федерации",
+              "displayName": "Доставка внутри субъекта Российской Федерации",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Прейскурант",
+              "displayName": "Прейскурант",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1840,
+        600
+      ],
+      "id": "c9f15a75-7638-4d25-a74a-27ba7935f779",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Z8jrSzmQIVZNypMy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let startIndex = 1; // значение по умолчанию\n\n// Отладка - смотрим что приходит\nconsole.log('Input data:', JSON.stringify($input.first().json, null, 2));\n\n// Пробуем получить startIndex из разных источников\nif ($input.first().json.number && !isNaN(parseInt($input.first().json.number, 10))) {\n    startIndex = parseInt($input.first().json.number, 10);\n    console.log('Using number:', startIndex);\n} else if ($input.first().json.results && $input.first().json.results[0] && $input.first().json.results[0]['Индекс'] && !isNaN(parseInt($input.first().json.results[0]['Индекс'], 10))) {\n    startIndex = parseInt($input.first().json.results[0]['Индекс'], 10);\n    console.log('Using results[0].Индекс:', startIndex);\n} else {\n    console.log('Using default startIndex:', startIndex);\n}\n\nitems[0].json.results = items[0].json.results.map((item, idx) => ({\n  ...item,\n  Индекс: String(startIndex + idx)\n}));\n\nconsole.log('Final results with indexes:', items[0].json.results.map(r => r.Индекс));\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        600
+      ],
+      "id": "154de7cc-1208-424e-b799-c52f1fc31ae7",
+      "name": "Code4"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        600
+      ],
+      "id": "9d82e8fc-1198-4126-afe7-c66c38f1245e",
+      "name": "Wait",
+      "webhookId": "b22a1dde-43e2-49e2-80b1-8639d658e832"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем стартовый индекс из поля \"№ п/п\" первого входного элемента\nconst startIndex = parseInt($input.first().json[\"№ п/п\"], 10) || 1;\n\nconst grouped = [];\n\nfor (let i = 0; i < items.length; i += 3) {\n  const group = items.slice(i, i + 3).map((item, idx) => ({\n    ...item.json,\n    uniqueIndex: startIndex + i + idx // начинаем с \"№ п/п\"\n  }));\n\n  grouped.push({ json: { groupId: `group_${i}-${i + 3}`, originalRows: group } });\n}\n\n// Обновлённый индекс для последующего использования\nconst newLastIndex = startIndex + items.length;\nreturn [...grouped, { json: { LastIndex: newLastIndex } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        580
+      ],
+      "id": "c21dabbd-5ae7-4aad-b6d2-a733b95b6854",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE",
+          "mode": "list",
+          "cachedResultName": "1111",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1235877980,
+          "mode": "list",
+          "cachedResultName": "Расходные ресурсы",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE/edit#gid=1235877980"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        0,
+        0
+      ],
+      "id": "28433304-81d1-4d14-a619-8d76949965d8",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Z8jrSzmQIVZNypMy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "20f49b71-d222-4f5e-92bc-0edaf23ea9aa",
+              "leftValue": "={{ $json[\"Код строительного ресурса\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "af83ecfd-7bf7-43e0-94d8-948a47f5ee3d",
+              "leftValue": "={{ $json[\"Наименование строительного ресурса\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        0
+      ],
+      "id": "c7257bb3-477f-4ded-b82c-4dbc19b4a3e5",
+      "name": "Filter3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем стартовый индекс из поля \"№ п/п\" первого входного элемента\nconst startIndex = parseInt($input.first().json[\"№ п/п\"], 10) || 1;\n\nconst grouped = [];\n\nfor (let i = 0; i < items.length; i += 3) {\n  const group = items.slice(i, i + 3).map((item, idx) => ({\n    ...item.json,\n    uniqueIndex: startIndex + i + idx // начинаем с \"№ п/п\"\n  }));\n\n  grouped.push({ json: { groupId: `group_${i}-${i + 3}`, originalRows: group } });\n}\n\n// Обновлённый индекс для последующего использования\nconst newLastIndex = startIndex + items.length;\nreturn [...grouped, { json: { LastIndex: newLastIndex } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "544cd20d-8ffe-41d2-883a-305a5d52afb8",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        780,
+        0
+      ],
+      "id": "a891dc05-03dc-4b6b-bbe8-45e11d8c63da",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        20
+      ],
+      "id": "7c29ed2b-c84c-45c5-af9c-c4465ac326e3",
+      "name": "Wait1",
+      "webhookId": "c6558959-90dd-4c1c-87f6-aeec13541a1a"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/collect_offers",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $json.originalRows[0][\"Наименование строительного ресурса\"] }}\",\n  \"code\": \"{{ $json.originalRows[0][\"Код строительного ресурса\"] }}\",\n  \"weight\": \"{{ $json.originalRows[0][\"Единица измерения\"] }}\",\n  \"number\": \"{{ $json.originalRows[0].uniqueIndex }}\",\n  \"city\": \"{{ $json.originalRows[0][\"Ценовая зона\"] }}\",\n  \"monitor\": \"{{ $json.originalRows[0][\"Мониторинг проводил\"] }}\"\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1360,
+        20
+      ],
+      "id": "1b898eaf-57b3-448a-b082-62e98afc80c8",
+      "name": "HTTP Request1",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "let startIndex = 1; // значение по умолчанию\n\n// Отладка - смотрим что приходит\nconsole.log('Input data:', JSON.stringify($input.first().json, null, 2));\n\n// Пробуем получить startIndex из разных источников\nif ($input.first().json.number && !isNaN(parseInt($input.first().json.number, 10))) {\n    startIndex = parseInt($input.first().json.number, 10);\n    console.log('Using number:', startIndex);\n} else if ($input.first().json.results && $input.first().json.results[0] && $input.first().json.results[0]['Индекс'] && !isNaN(parseInt($input.first().json.results[0]['Индекс'], 10))) {\n    startIndex = parseInt($input.first().json.results[0]['Индекс'], 10);\n    console.log('Using results[0].Индекс:', startIndex);\n} else {\n    console.log('Using default startIndex:', startIndex);\n}\n\nitems[0].json.results = items[0].json.results.map((item, idx) => ({\n  ...item,\n  Индекс: String(startIndex + idx)\n}));\n\nconsole.log('Final results with indexes:', items[0].json.results.map(r => r.Индекс));\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        0
+      ],
+      "id": "395665bc-b43b-4490-954f-7ccbd2888590",
+      "name": "Code5"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        0
+      ],
+      "id": "708d5f72-9366-4303-a763-1243a2626b67",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE",
+          "mode": "list",
+          "cachedResultName": "1111",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1235877980,
+          "mode": "list",
+          "cachedResultName": "Расходные ресурсы",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UhAGC4XTxk_dZ_004o-sNUknNp60ms_BU0HhT_RSqqE/edit#gid=1235877980"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Наименование ресурса по прейскуранту": "={{ $json[\"Наименование ресурса по прейскуранту\"] }}",
+            "ИНН поставщика/ производителя": "={{ $json[\"ИНН поставщика/ производителя\"] }}",
+            "Наименование поставщика/ производителя": "={{ $json[\"Наименование поставщика/ производителя\"] }}",
+            "Адрес поставщика/производителя/склада (место отгрузки)": "={{ $json[\"Адрес поставщика/производителя/склада (место отгрузки)\"] }}",
+            "Электронная почта поставщика/производителя": "={{ $json[\"Электронная почта поставщика/производителя\"] }}",
+            "Телефон поставщика/производителя": "={{ $json[\"Телефон поставщика/производителя\"] }}",
+            "Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя": "={{ $json[\"Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя\"] }}",
+            "Прейскурант": "={{ $json[\"Прейскурант\"] }}",
+            "№ п/п": "={{ $json[\"Индекс\"] }}",
+            "Текущая отпускная цена за ед. изм. по прейскуранту с НДС, руб.": "={{ $json[\"Ценовое предложение, с НДС, руб.\"] }}",
+            "Примечание": "={{ $json[\"Формула\"] }}"
+          },
+          "matchingColumns": [
+            "№ п/п"
+          ],
+          "schema": [
+            {
+              "id": "№ п/п",
+              "displayName": "№ п/п",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "№ карточки",
+              "displayName": "№ карточки",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ценовая зона",
+              "displayName": "Ценовая зона",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Код строительного ресурса",
+              "displayName": "Код строительного ресурса",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Наименование строительного ресурса",
+              "displayName": "Наименование строительного ресурса",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Единица измерения",
+              "displayName": "Единица измерения",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ресурс не представлен на территории субъекта РФ",
+              "displayName": "Ресурс не представлен на территории субъекта РФ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Наименование ресурса по прейскуранту",
+              "displayName": "Наименование ресурса по прейскуранту",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ценовое предложение, с НДС, руб.",
+              "displayName": "Ценовое предложение, с НДС, руб.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ставка НДС",
+              "displayName": "Ставка НДС",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ценовое предложение, без НДС, руб.",
+              "displayName": "Ценовое предложение, без НДС, руб.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ИНН поставщика/ производителя",
+              "displayName": "ИНН поставщика/ производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Наименование поставщика/ производителя",
+              "displayName": "Наименование поставщика/ производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Транспортные расходы учтены в ценовом предложении",
+              "displayName": "Транспортные расходы учтены в ценовом предложении",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Фактический адрес поставщика/производителя/склада (место отгрузки)",
+              "displayName": "Фактический адрес поставщика/производителя/склада (место отгрузки)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Адрес поставщика/производителя/склада (место отгрузки)",
+              "displayName": "Адрес поставщика/производителя/склада (место отгрузки)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Электронная почта поставщика/производителя",
+              "displayName": "Электронная почта поставщика/производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Телефон поставщика/производителя",
+              "displayName": "Телефон поставщика/производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя",
+              "displayName": "Адрес сайта в информационно-телекоммуникационной сети «Интернет» поставщика/производителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Единица измерения по прейскуранту",
+              "displayName": "Единица измерения по прейскуранту",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Текущая отпускная цена за ед. изм. по прейскуранту с НДС, руб.",
+              "displayName": "Текущая отпускная цена за ед. изм. по прейскуранту с НДС, руб.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Масса брутто за единицу измерения по прейскуранту, кг ",
+              "displayName": "Масса брутто за единицу измерения по прейскуранту, кг ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Цена зафиксирована на дату\n  ",
+              "displayName": "Цена зафиксирована на дату\n  ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Дата окончания действия коммерческого предложения",
+              "displayName": "Дата окончания действия коммерческого предложения",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Примечание",
+              "displayName": "Примечание",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Транспортные расходы, руб./ед. изм.",
+              "displayName": "Транспортные расходы, руб./ед. изм.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доставка внутри субъекта Российской Федерации",
+              "displayName": "Доставка внутри субъекта Российской Федерации",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Прейскурант",
+              "displayName": "Прейскурант",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2080,
+        0
+      ],
+      "id": "d419db8e-727f-4149-99c7-086a41f87038",
+      "name": "Google Sheets4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Z8jrSzmQIVZNypMy",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code4": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Filter3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter3": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Code5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code5": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "091580a7-e218-45ea-8626-f12cc442844b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e5c1908fd1213f4143f269a28f7ab39e5f039170cc7284ebb68766a136eb2a31"
+  },
+  "id": "c2wd2jXGv6faNhbk",
+  "tags": []
+}

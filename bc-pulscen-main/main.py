@@ -8,6 +8,7 @@ from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError
 from openai import AsyncOpenAI
+import pyautogui
 
 # Импорты из наших модулей
 from config import (
@@ -199,13 +200,23 @@ async def collect_offers(query: ProductQuery):
         async with async_playwright() as p:
             print("Playwright started, launching browser...")
             browser = await p.chromium.launch(
-                headless=True,
+                headless=False,
                 args=BROWSER_ARGS
             )
             print("Browser launched successfully!")
+            
+            # Позиционируем окно браузера в левом верхнем углу
+            try:
+                # Для macOS используем AppleScript для позиционирования
+                import subprocess
+                subprocess.run(['osascript', '-e', 'tell application "System Events" to set position of first window of application process "Chromium" to {0, 0}'], 
+                             capture_output=True, check=False)
+            except Exception as e:
+                print(f"Не удалось позиционировать окно браузера: {e}")
+            
             context = await browser.new_context(
                 user_agent=BROWSER_USER_AGENT,
-                viewport=BROWSER_VIEWPORT
+                viewport={"width": 1600, "height": 900}  # Уменьшенный размер для видимости системной панели и времени
             )
 
             try:
@@ -563,7 +574,8 @@ async def collect_offers(query: ProductQuery):
                             seller_page = await context.new_page()
                             
                             # Устанавливаем размер viewport для корректного отображения
-                            await seller_page.set_viewport_size({"width": 1920, "height": 1080})
+                            # Уменьшенный размер для видимости системной панели на скриншоте
+                            await seller_page.set_viewport_size({"width": 1600, "height": 900})
                             
                             try:
                                 # Устанавливаем обработчик консоли для отладки
@@ -700,33 +712,28 @@ async def collect_offers(query: ProductQuery):
                                         await seller_page.evaluate("() => window.scrollTo(0, 0)")
                                         await asyncio.sleep(2)
                                         
-                                        logger.info("Скриншот верхней части экрана через Playwright")
+                                        # Дополнительная задержка для стабилизации позиции окна
+                                        await asyncio.sleep(1)
                                         
-                                        # Если страница пустая, используем full_page=True
-                                        final_body_height = await seller_page.evaluate("() => document.body.scrollHeight")
-                                        if final_body_height < 200:
-                                            logger.warning("Страница очень короткая, используем полный скриншот")
-                                            await seller_page.screenshot(path=top_path, full_page=True, timeout=10000)
-                                        else:
-                                            # Обычный скриншот с заданной областью
-                                            await seller_page.screenshot(
-                                                path=top_path, 
-                                                full_page=False,
-                                                clip={"x": 0, "y": 0, "width": 1920, "height": 600},
-                                                timeout=10000
-                                            )
+                                        logger.info("Скриншот верхней части экрана через pyautogui")
+                                        
+                                        # Делаем скриншот всего экрана
+                                        screenshot = pyautogui.screenshot()
+                                        screenshot.save(top_path)
                                         
                                     except Exception as screenshot_error:
                                         logger.error(f"Ошибка создания скриншота страницы продавца: {screenshot_error}")
                                         logger.warning("Используем скриншот основной страницы вместо страницы продавца")
                                         await product_page.evaluate("() => window.scrollTo(0, 0)")
                                         await asyncio.sleep(1)
-                                        await product_page.screenshot(path=top_path, full_page=False)
+                                        screenshot = pyautogui.screenshot()
+                                        screenshot.save(top_path)
                                 else:
                                     logger.warning("Страница продавца недоступна, используем скриншот основной страницы")
                                     await product_page.evaluate("() => window.scrollTo(0, 0)")
                                     await asyncio.sleep(1)
-                                    await product_page.screenshot(path=top_path, full_page=False)
+                                    screenshot = pyautogui.screenshot()
+                                    screenshot.save(top_path)
                                 logger.info(f"Проверка {top_path}: {os.path.exists(top_path)}, размер: {os.path.getsize(top_path) if os.path.exists(top_path) else 0}")
                                 
                                 # Проверяем, не пустой ли скриншот (8511 байт = типичный размер пустого скриншота)
@@ -738,7 +745,8 @@ async def collect_offers(query: ProductQuery):
                                         # Создаем скриншот основной страницы
                                         await product_page.evaluate("() => window.scrollTo(0, 0)")
                                         await asyncio.sleep(1)
-                                        await product_page.screenshot(path=top_path, full_page=False)
+                                        screenshot = pyautogui.screenshot()
+                                        screenshot.save(top_path)
                                         logger.info(f"Fallback скриншот создан, размер: {os.path.getsize(top_path)} байт")
                                     except Exception as fallback_error:
                                         logger.error(f"Ошибка создания fallback скриншота: {fallback_error}")
@@ -756,31 +764,33 @@ async def collect_offers(query: ProductQuery):
                                             await seller_page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
                                             await asyncio.sleep(2)
                                             
-                                            logger.info("Скриншот нижней части экрана через Playwright")
-                                            await seller_page.screenshot(
-                                                path=bottom_path, 
-                                                full_page=False,
-                                                clip={"x": 0, "y": max(0, page_height - viewport_height), "width": 1920, "height": viewport_height},
-                                                timeout=10000
-                                            )
+                                            # Дополнительная задержка для стабилизации позиции окна
+                                            await asyncio.sleep(1)
+                                            
+                                            logger.info("Скриншот нижней части экрана через pyautogui")
+                                            screenshot = pyautogui.screenshot()
+                                            screenshot.save(bottom_path)
                                         else:
                                             # Страница короткая, делаем скриншот с середины
                                             logger.warning("Страница короткая, скриншот с середины")
                                             await seller_page.evaluate("window.scrollTo(0, 0)")
                                             await asyncio.sleep(1)
-                                            await seller_page.screenshot(path=bottom_path, full_page=True, timeout=10000)
+                                            screenshot = pyautogui.screenshot()
+                                            screenshot.save(bottom_path)
                                         
                                     except Exception as bottom_screenshot_error:
                                         logger.error(f"Ошибка создания нижнего скриншота страницы продавца: {bottom_screenshot_error}")
                                         logger.warning("Используем нижний скриншот основной страницы")
                                         await product_page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
                                         await asyncio.sleep(2)
-                                        await product_page.screenshot(path=bottom_path, full_page=False)
+                                        screenshot = pyautogui.screenshot()
+                                        screenshot.save(bottom_path)
                                 else:
                                     logger.warning("Страница продавца недоступна, используем скриншот основной страницы (низ)")
                                     await product_page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
                                     await asyncio.sleep(2)
-                                    await product_page.screenshot(path=bottom_path, full_page=False)
+                                    screenshot = pyautogui.screenshot()
+                                    screenshot.save(bottom_path)
                                 logger.info(f"Проверка {bottom_path}: {os.path.exists(bottom_path)}, размер: {os.path.getsize(bottom_path) if os.path.exists(bottom_path) else 0}")
                                 
                                 # Проверяем, не пустой ли нижний скриншот
@@ -792,7 +802,8 @@ async def collect_offers(query: ProductQuery):
                                         # Создаем скриншот основной страницы (нижняя часть)
                                         await product_page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
                                         await asyncio.sleep(2)
-                                        await product_page.screenshot(path=bottom_path, full_page=False)
+                                        screenshot = pyautogui.screenshot()
+                                        screenshot.save(bottom_path)
                                         logger.info(f"Fallback нижний скриншот создан, размер: {os.path.getsize(bottom_path)} байт")
                                     except Exception as fallback_error:
                                         logger.error(f"Ошибка создания fallback нижнего скриншота: {fallback_error}")
@@ -896,7 +907,8 @@ async def collect_offers(query: ProductQuery):
                         else:
                             # Только для других ошибок создаем скриншот
                             try:
-                                await product_page.screenshot(path=f"{out_dir}/error_{idx+1}.png")
+                                screenshot = pyautogui.screenshot()
+                                screenshot.save(f"{out_dir}/error_{idx+1}.png")
                                 logger.info(f"[DEBUG] Создан скриншот ошибки: error_{idx+1}.png")
                             except:
                                 logger.warning(f"[DEBUG] Не удалось создать скриншот для error_{idx+1}")
